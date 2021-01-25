@@ -3,6 +3,10 @@ import sys
 import os
 import math
 
+
+pygame.mixer.init()
+pygame.mixer.music.load("Music game.mp3")
+pygame.mixer.music.set_volume(0.15)
 # Настройки игры
 WIDTH = 1200
 HEIGHT = 800
@@ -32,7 +36,7 @@ TEXTURE_SCALE = TEXTURE_WIDTH // TILE
 
 # Настройки игрока
 player_pos = 150, 150
-player_angle = 5
+player_angle = 95
 player_speed = 1.8
 
 # Цвета
@@ -210,11 +214,11 @@ class Player:
         self.angle %= DOUBLE_PI
         if e == 1 and 1000 < self.x < 1100 and 1050 < self.y < 1100:
             intppo_text = ["ЭТО ПОБЕДА",
-                           "ПОЗДРАВЛЯЮ!!!!!!",
+                           "ПОЗДРАВЛЯЮ!",
                            "Нажмите ENTER чтобы продолжить проходить лабиринт"]
             pygame.init()
             clock = pygame.time.Clock()
-            pygame.display.set_caption("ПОБЕДА!!!!!")
+            pygame.display.set_caption("ПОБЕДА!")
             fonty = pygame.transform.scale(load_image('win.jpg'), (WIDTH, HEIGHT))
             seiopp = pygame.display.set_mode([WIDTH, HEIGHT])
             seiopp.blit(fonty, (0, 0))
@@ -241,11 +245,11 @@ class Player:
         elif e == 2 and 1925 < self.x < 1975 and 2050 < self.y < 2100:
             intppo_text = ["ЭТО ПОБЕДА",
                            "ЭТОТ УРОВЕЕНЬ БЫЛ НЕПРОС НО ВЫ СПРАВИЛИСЬ",
-                           "ПОЗДРАВЛЯЮ!!!!!!",
+                           "ПОЗДРАВЛЯЮ!",
                            "Нажмите ENTER чтобы продолжить проходить лабиринт"]
             pygame.init()
             clock = pygame.time.Clock()
-            pygame.display.set_caption("ПОБЕДА!!!!!")
+            pygame.display.set_caption("ПОБЕДА!")
             fonty = pygame.transform.scale(load_image('win.jpg'), (WIDTH, HEIGHT))
             seioppy = pygame.display.set_mode([WIDTH, HEIGHT])
             seioppy.blit(fonty, (0, 0))
@@ -273,11 +277,11 @@ class Player:
             intppo_text = ["ЭТО ПОБЕДА",
                            "ВЫ ПРОШЛИ САМЫЙ СЛОЖНЫЙ УРОВЕНЬ ЛАБИРИНТА",
                            'ВЫ МАСТЕР ГОЛОВАЛОМОК',
-                           "ПОЗДРАВЛЯЮ!!!!!!",
+                           "ПОЗДРАВЛЯЮ!",
                            "Нажмите ENTER чтобы продолжить проходить лабиринт"]
             pygame.init()
             clock = pygame.time.Clock()
-            pygame.display.set_caption("ПОБЕДА!!!!!")
+            pygame.display.set_caption("ПОБЕДА!")
             fonty = pygame.transform.scale(load_image('win.jpg'), (WIDTH, HEIGHT))
             seioppyo = pygame.display.set_mode([WIDTH, HEIGHT])
             seioppyo.blit(fonty, (0, 0))
@@ -381,6 +385,7 @@ collision_walls = []
 
 
 def yte():
+    pygame.mixer.music.play(-1)
     if e == 3:
         world_map.clear()
         collision_walls.clear()
@@ -557,6 +562,7 @@ def level1():
 
 
 def start_game():
+    pygame.mixer.music.stop()
     pygame.mouse.set_visible(True)
     texture = ''
     into_text = ["Уровни"]
@@ -601,7 +607,8 @@ def settings():
                   "S - идти назад",
                   "D - идти направо",
                   "стрелочка налево - поворот камеры налево",
-                  "стрелочка направо - поворот камеры направо"]
+                  "стрелочка направо - поворот камеры направо",
+                  "1 - выход в меню выбора уровня из лабиринта"]
     pygame.init()
     pygame.display.set_caption("Настройки")
     fon = pygame.transform.scale(load_image('settings.jpg'), (WIDTH, HEIGHT))
@@ -615,8 +622,11 @@ def settings():
         text_coord += 10
         intro_rect.top = text_coord
         intro_rect.x = 10
-        if line == "УПРАВЛЕНИЕ":
-            intro_rect.x = 550
+        if line == "УПРАВЛЕНИЕ" or line == "ПРАВИЛА":
+            if line == "УПРАВЛЕНИЕ":
+                intro_rect.x = 530
+            else:
+                intro_rect.x = 550
         text_coord += intro_rect.height
         se.blit(string_rendered, intro_rect)
     running = True
